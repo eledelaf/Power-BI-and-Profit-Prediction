@@ -5,7 +5,7 @@ import matplotlib
 import seaborn as sns
 
 # Load data
-data = "/Users/elenadelafuente/Desktop/Proyectos programación/Power-BI-and-Profit-Prediction"
+data = "Sample_data.xlsx"
 df = pd.read_excel(data)
 
-df.head()
+print(df.head())
