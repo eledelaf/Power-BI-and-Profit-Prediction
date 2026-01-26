@@ -11,7 +11,11 @@ df = pd.read_excel(data)
 print(df.head())
 print(df.columns)
 
-# Key questions to answer
+# 1. Data Cleaning
+print(df.describe())
+print(df.info()) # Only Null values are 53 discount Band
+print(df[df["Discount Band"].isna()].head()) 
+# 2. Core Sales Performance Analysis
 # Total revenue (revenue = units sold x Price per unit)
 df['Revenue'] = df['Units Sold'] * df['Sale Price']
 total_revenue = df['Revenue'].sum()
