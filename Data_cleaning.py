@@ -51,3 +51,9 @@ df = df.drop("discount_pct", axis=1)
 df = df.drop(['Month Number', 'Month Name', 'Year'], axis=1)
 
 # Lets check for data consistency 
+# Sales consistency, should be Gross Sales - Discounts = Net Sales
+print("Consistency check:")
+print((df[" Sales"] - (df["Gross Sales"] - df["Discounts"])).abs().describe())
+# We can see that most of the values are 0, which means that the data is consistent. They are not exactly 0 due to rounding errors.
+
+# Lets check for Profit consistency, should be Profit = Sales - COGS (Cost of Goods Sold)
