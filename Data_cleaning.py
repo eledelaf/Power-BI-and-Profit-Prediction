@@ -11,7 +11,10 @@ df = pd.read_excel(data)
 print(df.head())
 print(df.columns)
 
+df = df.rename(columns={" Sales": "Sales"})
+
 # 1. Data Cleaning
+# This is just an example of data cleaning, this data set is supposed to be already clean. 
 # Getting the info about the DF
 print(df.describe())
 print(df.info()) 
@@ -52,8 +55,32 @@ df = df.drop(['Month Number', 'Month Name', 'Year'], axis=1)
 
 # Lets check for data consistency 
 # Sales consistency, should be Gross Sales - Discounts = Net Sales
-print("Consistency check:")
-print((df[" Sales"] - (df["Gross Sales"] - df["Discounts"])).abs().describe())
+print("Sales consistency check:")
+print((df["Sales"] - (df["Gross Sales"] - df["Discounts"])).abs().describe())
 # We can see that most of the values are 0, which means that the data is consistent. They are not exactly 0 due to rounding errors.
 
 # Lets check for Profit consistency, should be Profit = Sales - COGS (Cost of Goods Sold)
+print("Profit consistency check:")
+print((df["Profit"] - (df["Sales"] - df["COGS"])).abs().describe())
+# We can see that most of the values are 0, which means that the data is consistent. They are not exactly 0 due to rounding errors.
+
+# Check for impossible values, like negative sales or profit
+print("Negative Sales check:")
+print((df[["Units Sold", "Gross Sales", "Sales", "COGS"]] < 0).sum())
+
+# Text Consistency
+# Removing leading and trailing whitespace
+df["Country"] = df["Country"].str.strip()
+df["Segment"] = df["Segment"].str.strip()
+df["Product"] = df["Product"].str.strip()
+df["Discount Band"] = df["Discount Band"].str.strip()
+
+print(df["Product"].value_counts().head())
+print(df["Product"].nunique())
+
+print(df["Country"].value_counts().head())
+print(df["Country"].nunique())
+
+# Redundant columns check 
+# Ive already eliminated the redundant columns: 'Month Number', 'Month Name', and 'Year'
+# Lets see if COGS can be 
