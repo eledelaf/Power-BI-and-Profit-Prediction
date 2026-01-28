@@ -12,19 +12,13 @@ print(df.head())
 print(df.columns)
 
 # 1. Data Cleaning
+# Getting the info about the DF
 print(df.describe())
 print(df.info()) 
 
-print(df[df["Discount Band"].isna()].head()) 
+# There are missing values in Discount Band, since this columns depends of others we are going to try to learn the value.
+# We are going to see in the values of Discount Band how were they created.
+df["discount_pct"] = df["Discounts"] / df["Gross Sales"]
 
 
-# 2. Core Sales Performance Analysis
-# Total revenue (revenue = units sold x Price per unit)
-df['Revenue'] = df['Units Sold'] * df['Sale Price']
-total_revenue = df['Revenue'].sum()
-print("The total revenue is :", total_revenue)
 
-# Total Units Sold
-print("The total units sold are:", int(df['Units Sold'].sum()))
-
-# Average Order Value
