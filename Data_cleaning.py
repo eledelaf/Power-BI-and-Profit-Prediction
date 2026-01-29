@@ -5,30 +5,33 @@ import matplotlib
 import seaborn as sns
 
 # Load data
-if __name__ == "__main__":
-    data = "Sample_data.xlsx"
-    df = pd.read_excel(data)
-    
-    print(df.head())
-    print(df.columns)
+data = "Sample_data.xlsx"    
+df = pd.read_excel(data)
+
+def clean_data(df, verbose = False):
+    if verbose:
+        print(df.head())
+        print(df.columns)
 
     df = df.rename(columns={" Sales": "Sales"})
 
     # 1. Data Cleaning
     # This is just an example of data cleaning, this data set is supposed to be already clean. 
     # Getting the info about the DF
-    print(df.describe())
-    print(df.info()) 
+    if verbose:
+        print(df.describe())
+        print(df.info()) 
 
     # There are missing values in Discount Band, since this columns depends of others we are going to try to learn the value.
     # We are going to see in the values of Discount Band how were they created.
     df["discount_pct"] = df["Discounts"] / df["Gross Sales"]
-    print(df[["Gross Sales", "Discounts", "discount_pct"]].describe())
-
-    print(df.groupby("Discount Band")["discount_pct"].describe())
+    if verbose:
+        print(df[["Gross Sales", "Discounts", "discount_pct"]].describe())
+        print(df.groupby("Discount Band")["discount_pct"].describe())
 
     # We are going to look into the Discount Band = NaN 
-    print(df[df["Discount Band"].isna()][["Gross Sales", "Discounts", "discount_pct"]].head())
+    if verbose: 
+        print(df[df["Discount Band"].isna()][["Gross Sales", "Discounts", "discount_pct"]].head())
 
     # Lets create a function that gives a value to Discount Band 
     def assign_disc_band(value):
@@ -45,7 +48,8 @@ if __name__ == "__main__":
     df["Discount Band"] = df["Discount Band"].fillna(df["discount_pct"].apply(assign_disc_band))
 
     # We can see that the problem was that in the Excel the value None was transalted into NaN
-    print(df.groupby("Discount Band")["discount_pct"].describe())
+    if verbose:
+        print(df.groupby("Discount Band")["discount_pct"].describe())
 
     # Now we eliminate "discount_pct"
     df = df.drop("discount_pct", axis=1)
@@ -56,19 +60,21 @@ if __name__ == "__main__":
 
     # Lets check for data consistency 
     # Sales consistency, should be Gross Sales - Discounts = Net Sales
-    print("Sales consistency check:")
-    print((df["Sales"] - (df["Gross Sales"] - df["Discounts"])).abs().describe())
-    # We can see that most of the values are 0, which means that the data is consistent. They are not exactly 0 due to rounding errors.
+    if verbose:
+        print("Sales consistency check:")
+        print((df["Sales"] - (df["Gross Sales"] - df["Discounts"])).abs().describe())
+        # We can see that most of the values are 0, which means that the data is consistent. They are not exactly 0 due to rounding errors.
 
     # Lets check for Profit consistency, should be Profit = Sales - COGS (Cost of Goods Sold)
-    print("Profit consistency check:")
-    print((df["Profit"] - (df["Sales"] - df["COGS"])).abs().describe())
-    # We can see that most of the values are 0, which means that the data is consistent. They are not exactly 0 due to rounding errors.
+    if verbose:
+        print("Profit consistency check:")
+        print((df["Profit"] - (df["Sales"] - df["COGS"])).abs().describe())
+        # We can see that most of the values are 0, which means that the data is consistent. They are not exactly 0 due to rounding errors.
 
     # Check for impossible values, like negative sales or profit
-    print("Negative Sales check:")
-    print((df[["Units Sold", "Gross Sales", "Sales", "COGS"]] < 0).sum())
-
+    if verbose:
+        print("Negative Sales check:")
+        print((df[["Units Sold", "Gross Sales", "Sales", "COGS"]] < 0).sum())
     # Text Consistency
     # Removing leading and trailing whitespace
     df["Country"] = df["Country"].str.strip()
@@ -76,24 +82,26 @@ if __name__ == "__main__":
     df["Product"] = df["Product"].str.strip()
     df["Discount Band"] = df["Discount Band"].str.strip()
 
-    print(df["Product"].value_counts().head())
-    print(df["Product"].nunique())
-
-    print(df["Country"].value_counts().head())
-    print(df["Country"].nunique())
+    if verbose:
+        print(df["Product"].value_counts().head())
+        print(df["Product"].nunique())
+        print(df["Country"].value_counts().head())
+        print(df["Country"].nunique())
 
     # Redundant columns check 
     # Ive already eliminated the redundant columns: 'Month Number', 'Month Name', and 'Year'
 
     # Check for duplicates rows
-    print("Number of duplicate rows:")
-    print(df.duplicated().sum())
+    if verbose:
+        print("Number of duplicate rows:")
+        print(df.duplicated().sum())
 
     # Lets check for candinality
-    print("Cardinality of each column:")
-    print(df.nunique().sort_values(ascending=False))
+    if verbose:
+        print("Cardinality of each column:")
+        print(df.nunique().sort_values(ascending=False))
     # The nunique() method returns the number of unique values for each column
+    return df
 
-    # Final check:
-    print(df.describe())
-    print(df.info()) 
+if __name__ == "__main__":
+    df = clean_data(df, True)
