@@ -1,3 +1,5 @@
+from Data_cleaning import df
+
 # 2. Core Sales Performance Analysis
 # Total revenue (revenue = units sold x Price per unit)
 df['Revenue'] = df['Units Sold'] * df['Sale Price']
