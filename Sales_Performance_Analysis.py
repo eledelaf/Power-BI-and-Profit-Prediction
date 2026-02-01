@@ -15,10 +15,11 @@ def kpi_summary(df):
         "Total Sales": float(sales),
         "Total Units Sold": float(units_sold),
         "Total Profit": float(profit), 
-        "Gross Profit": float(sales - profit),
+        "Total COGS": float(sales - profit),
         "Average Profit per Unit": float(profit / units_sold) if units_sold else 0,
         "Profit Margin": float(profit / sales * 100) if sales else 0
-
     }
 
 print(kpi_summary(df))
+
+# Is performance improving over time?

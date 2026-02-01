@@ -4,10 +4,6 @@ import pandas as pd
 import matplotlib
 import seaborn as sns
 
-# Load data
-data = "Sample_data.xlsx"    
-df = pd.read_excel(data)
-
 def clean_data(df, verbose = False):
     if verbose:
         print(df.head())
@@ -104,4 +100,6 @@ def clean_data(df, verbose = False):
     return df
 
 if __name__ == "__main__":
+    data = "Sample_data.xlsx"    
+    df = pd.read_excel(data)
     df = clean_data(df, True)
