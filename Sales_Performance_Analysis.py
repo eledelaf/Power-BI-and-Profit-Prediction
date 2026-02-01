@@ -2,20 +2,23 @@ from Data_cleaning import clean_data
 import pandas as pd
 
 # 2. Core Sales Performance Analysis
-# Total revenue (revenue = units sold x Price per unit)
 
-data = "Sample_data.xlsx"    
-df = pd.read_excel(data)
-df = clean_data(df)
+df = clean_data(pd.read_excel("Sample_data.xlsx"))
 
-df['Revenue'] = df['Units Sold'] * df['Sale Price']
-total_revenue = df['Revenue'].sum()
-print("The total revenue is :", total_revenue)
+# ['Segment', 'Country', 'Product', 'Discount Band', 'Units Sold', 'Manufacturing Price', 'Sale Price', 'Gross Sales', 'Discounts', ' Sales', 'COGS', 'Profit', 'Date']
+def kpi_summary(df):
+    sales = df['Sales'].sum()
+    units_sold = df['Units Sold'].sum()
+    profit = df['Profit'].sum()
 
-# Total Units Sold
-print("The total units sold are:", int(df['Units Sold'].sum()))
+    return {
+        "Total Sales": float(sales),
+        "Total Units Sold": float(units_sold),
+        "Total Profit": float(profit), 
+        "Gross Profit": float(sales - profit),
+        "Average Profit per Unit": float(profit / units_sold) if units_sold else 0,
+        "Profit Margin": float(profit / sales * 100) if sales else 0
 
-# Average Order Value: dividing total revenue by the number of orders over a specific period, assuming each row represents an order
+    }
 
-
-
+print(kpi_summary(df))
