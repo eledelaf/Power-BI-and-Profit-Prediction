@@ -1,54 +1,75 @@
-# Power-BI-and-Profit-Prediction
+# Sales Performance Analysis & Profit Prediction
 
-# Data cleaning 
+End-to-end analysis of 700 sales transactions across 5 countries, 6 products, and 5 customer segments (Sep 2013 – Dec 2014), answering key business questions about revenue, trends, product performance, and profitability — plus a **machine learning model** that predicts profit from pre-sale features.
 
-'Segment'=  
-'Country'= Which country are those sales from  
-'Product'= Which product are they buying
-'Discount Band'=  Wich type of discount, None, low, medium, high
-'Units Sold'= How many units have been sold that month 
-'Manufacturing Price' = The price of creating one unit 
-'Sale Price' = Price of the unit to the public
-'Gross Sales' = 
-'Discounts' = How much discounted was the unit
-' Sales' =
-'COGS' = Cost of Goods Sold represents the direct costs attributable to the production or purchase of goods sold by a business, including raw materials, direct labor, and manufacturing overhead
-'Profit' = How much money they made with out the costs 
-'Date' = Date of the pursache 
+## Key Findings
 
-https://www.datacamp.com/blog/infographic-data-cleaning-checklist?utm_cid=19589720821&utm_aid=152984011334&utm_campaign=230119_1-ps-other~dsa-tofu~all_2-b2c_3-emea_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&utm_loc=1006886-&utm_mtd=-c&utm_kw=&utm_source=google&utm_medium=paid_search&utm_content=ps-other~emea-en~dsa~tofu~blog~data-science&gad_source=1&gad_campaignid=19589720821&gbraid=0AAAAADQ9WsG6QLdUGnhkM3nohq3bZFgtO&gclid=Cj0KCQiAp-zLBhDkARIsABcYc6vt71dWX5gMtOC5DzinjBvuSu41Az5D9MZBGTSnevVzcX3ZzzgkpnwaAodsEALw_wcB
+### Analysis
+- **Paseo** is the top-selling product, leading both in revenue and units sold across all markets.
+- Year-over-year revenue growth is positive when comparing the overlapping months (Sep–Dec) of 2013 vs 2014.
+- Higher discount bands correlate with significantly lower profit margins — heavy discounting erodes profitability.
+- A notable portion of transactions are loss-making, concentrated in specific product-segment combinations.
 
-After using df.info() we can see that there are missing values in the "Discount Band" column. Lets see the column "Discount" depending on that we will give a value to the "Discount Band".
+### Profit Prediction
+- **Random Forest (R² = 0.92)** significantly outperforms Linear Regression (R² = 0.68) for profit prediction.
+- **Units Sold** is the strongest predictor of profit, followed by Manufacturing Price and Sale Price.
+- Discount Band has a visible impact — moving from "None" to "High" reduces expected profit.
+- Features like Sales, COGS, Gross Sales, and Discounts were excluded to avoid data leakage.
 
-## Cardinality check 
-https://www.datacamp.com/tutorial/cardinality?utm_cid=19589720821&utm_aid=157156374671&utm_campaign=230119_1-ps-other~dsa-tofu~all_2-b2c_3-emea_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&utm_loc=1006886-&utm_mtd=-c&utm_kw=&utm_source=google&utm_medium=paid_search&utm_content=ps-other~emea-en~dsa~tofu~tutorial~data-science&gad_source=1&gad_campaignid=19589720821&gbraid=0AAAAADQ9WsG6QLdUGnhkM3nohq3bZFgtO&gclid=Cj0KCQiAp-zLBhDkARIsABcYc6tCszWLijHc3NM2ywCmQGCKeBpDVE18u1gRqB1CRLEENJxWDHh_3DUaApxmEALw_wcB
+## Dataset
 
-Cardinality refers to the number of unique values in a dataset column. A column with high cardinality contains a vast number of unique values, while columns with low cardinality contain fewer unique entries.
+| Detail | Value |
+|--------|-------|
+| Source | `Sample_data.xlsx` |
+| Rows | 700 |
+| Time Period | September 2013 – December 2014 |
+| Countries | Germany, Canada, France, Mexico, USA |
+| Products | Carretera, Paseo, Velo, VTT, Amarilla, Montana |
+| Segments | Government, Midmarket, Channel Partners, Enterprise, Small Business |
 
-# Sales Performance Analysis
-https://www.ibm.com/products/planning-analytics/sales-planning?utm_content=SRCWW&p1=Search&p4=41756381&p5=b&p9=169118374741&gclsrc=aw.ds&gad_source=1&gad_campaignid=22027252986&gbraid=0AAAAA-h2TOFSpa4pRPkK_g-hmshODEudN&gclid=Cj0KCQiAp-zLBhDkARIsABcYc6tiE6e5KQcpsIMyF_9Gqlu6F-6sutmYay59U-5f2dqJMc8ca2k9jcoaAonuEALw_wcB
+**Columns:** Segment, Country, Product, Discount Band, Units Sold, Manufacturing Price, Sale Price, Gross Sales, Discounts, Sales, COGS, Profit, Date
 
-## What do we want to answer
-1. How much are we selling?
-2. Is performance improving or declinign over time?
-3. Which products drive results?
-4. Are sales profitable?
+## Project Structure
 
-## KPIs Key Performance Indicator 
-KPIs are the most important quantifiable measures of progress toward your intended outcome.
-1. Leading Indicators
-2. Lagging indicators 
+```
+Power-BI-and-Profit-Prediction/
+├── Sales_Performance_Analysis.ipynb   # EDA notebook (start here)
+├── Profit_Prediction.ipynb            # ML notebook — Linear Regression vs Random Forest
+├── Data_cleaning.py                   # Reusable data cleaning module
+├── Sales_Performance_Analysis.py      # Original script version of the analysis
+├── Sample_data.xlsx                   # Source dataset
+├── requirements.txt                   # Python dependencies
+├── .gitignore                         # Git ignore rules
+└── README.md                          # This file
+```
 
-Caracteristics of KPIs:
-1. Provide objective evidence that we are working towards the desired outcome.
-2. Measure the right things to inform better decision making
-3. Link to strategic Imperatives, create KPIs that mirrors our organisation priorities
-4. Track how performance cahnges over time 
-5. Track things that matter to us
-6. Significant, measurable, achivable, relevant, trackable, ethical and time bound
+## How to Run
 
-How do I create good KPIs?
+```bash
+# 1. Clone the repository
+git clone https://github.com/YOUR_USERNAME/Power-BI-and-Profit-Prediction.git
+cd Power-BI-and-Profit-Prediction
 
-## Net Sales (Revenue)
-The money that we actually earned selling pro
+# 2. Create a virtual environment (optional but recommended)
+python -m venv .venv
+source .venv/bin/activate
 
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Open the notebook
+jupyter notebook Sales_Performance_Analysis.ipynb
+```
+
+## Technologies
+
+- **Python 3** — pandas, numpy, matplotlib, seaborn, scikit-learn
+- **Jupyter Notebook** — interactive analysis and visualization
+- **scikit-learn** — Linear Regression, Random Forest, train/test split, metrics
+- **openpyxl** — Excel file reading
+
+## Future Work
+
+- Interactive Power BI dashboard connected to this dataset
+- Hyperparameter tuning to reduce Random Forest overfitting
+- Additional models (Gradient Boosting, XGBoost) for comparison
